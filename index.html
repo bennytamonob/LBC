@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Leadership Boot Camp</title>
+    <!-- Menggunakan Tailwind CSS untuk styling yang cepat dan responsif -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0fdf4; /* Light green background */
+        }
+        
+        /* Animasi untuk transisi cover ke isi undangan */
+        .slide-up {
+            transform: translateY(-100vh);
+            transition: transform 0.8s ease-in-out;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Styling tambahan untuk custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #16a34a; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #15803d; 
+        }
+    </style>
+</head>
+<body class="overflow-hidden text-gray-800">
+
+    <!-- BAGIAN COVER UNDANGAN -->
+    <div id="cover-page" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-green-700 text-white p-6 w-full h-full transition-all duration-1000">
+        <!-- Overlay pattern (opsional, untuk mempermanis cover) -->
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        
+        <div class="relative z-10 flex flex-col items-center text-center">
+            <!-- Logo -->
+            <img src="https://i.ibb.co.com/ymkyHVkp/LOGO-FIX.png" alt="Logo" class="w-32 md:w-40 mb-8 bg-white p-2 rounded-xl shadow-lg">
+            
+            <h1 class="text-3xl md:text-5xl font-bold mb-4 tracking-wide">Undangan Leadership Boot Camp</h1>
+            
+            <div class="mt-8 mb-12">
+                <p class="text-lg md:text-xl font-light mb-2">Kepada Ytk,</p>
+                <!-- Nama peserta akan diisi otomatis oleh JavaScript dari URL -->
+                <h2 id="cover-guest-name" class="text-3xl md:text-4xl font-semibold text-green-100 border-b-2 border-green-400 pb-2 inline-block px-4">Nama Peserta</h2>
+            </div>
+
+            <button onclick="bukaUndangan()" class="group relative px-8 py-3 bg-white text-green-700 font-bold rounded-full text-lg shadow-[0_0_20px_rgba(255,255,255,0.4)] hover:bg-green-50 hover:shadow-[0_0_30px_rgba(255,255,255,0.6)] hover:-translate-y-1 transition-all duration-300">
+                Buka Undangan
+                <span class="inline-block ml-2 group-hover:translate-y-1 transition-transform">↓</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- BAGIAN ISI UNDANGAN (Disembunyikan awalnya) -->
+    <div id="main-content" class="h-screen overflow-y-auto hidden">
+        <div class="max-w-4xl mx-auto p-4 md:p-8 my-8">
+            
+            <!-- Kertas Surat -->
+            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border-t-8 border-green-600 p-6 md:p-12 relative">
+                
+                <!-- Tanggal Terupdate -->
+                <div class="text-right text-sm text-gray-500 mb-6 font-medium" id="current-date">
+                    Tanggal
+                </div>
+
+                <div class="mb-8 text-center sm:text-left">
+                    <img src="https://i.ibb.co.com/ymkyHVkp/LOGO-FIX.png" alt="Logo" class="w-24 mx-auto sm:mx-0 mb-4">
+                </div>
+
+                <!-- Salam Pembuka -->
+                <div class="mb-6">
+                    <p class="mb-1 text-gray-600">Kepada Ytk,</p>
+                    <p id="letter-guest-name" class="text-xl font-bold text-green-800 mb-4">Nama Peserta</p>
+                    <p class="font-semibold text-gray-800">Salam persaudaraan,</p>
+                </div>
+
+                <!-- Isi Surat -->
+                <div class="space-y-4 text-gray-700 leading-relaxed text-justify">
+                    <p>Sebagai pemimpin yang telah dipilih Tuhan mari kita terus bertumbuh mencapai kepenuhan Kristus dalam iman, kebenaran dan kedewasaan penuh, yang terus diperlengkapi agar potensi yang Allah berikan dalam hidup kita semakin maksimal.</p>
+                    <p>Sudah menjadi komitmen kami, Departemen Edukasi untuk memperlengkapi Bapak/Ibu/Sdr./i sebagai pemimpin. Untuk itu kami kembali mengadakan <strong>Pelatihan Leadership Boot Camp</strong> yang akan diadakan pada:</p>
+                    
+                    <div class="bg-green-50 p-6 rounded-lg border border-green-100 my-6 shadow-sm">
+                        <h3 class="font-bold text-green-800 border-b border-green-200 pb-2 mb-3">Pra Camp LBC :</h3>
+                        <table class="w-full text-sm sm:text-base mb-4">
+                            <tr><td class="w-24 sm:w-32 font-semibold py-1">Hari/Tgl</td><td class="w-4 py-1">:</td><td class="py-1">Minggu, 07 Juni 2026</td></tr>
+                            <tr><td class="font-semibold py-1">Tempat</td><td class="py-1">:</td><td class="py-1">Gereja Abbalove</td></tr>
+                            <tr><td class="font-semibold py-1">Jam</td><td class="py-1">:</td><td class="py-1">16.00 Wita</td></tr>
+                        </table>
+
+                        <h3 class="font-bold text-green-800 border-b border-green-200 pb-2 mb-3 mt-4">Camp LBC :</h3>
+                        <table class="w-full text-sm sm:text-base">
+                            <tr><td class="w-24 sm:w-32 font-semibold py-1">Hari/Tgl</td><td class="w-4 py-1">:</td><td class="py-1">Selasa - Kamis, 16 - 18 Juni 2026</td></tr>
+                            <tr><td class="font-semibold py-1">Tempat</td><td class="py-1">:</td><td class="py-1">Bati Center Bajra - Tabanan</td></tr>
+                        </table>
+                    </div>
+
+                    <p>Melalui surat ini kami mengundang Bapak/Ibu/Sdr./i untuk menjadi peserta di LBC kali ini.</p>
+                    
+                    <div class="my-6">
+                        <p class="font-bold text-green-800 mb-2">BERKAT YANG AKAN BAPAK/IBU/SDR./I TERIMA :</p>
+                        <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                            <li>DIPERLENGKAPI DALAM KEPEMIMPINAN</li>
+                            <li>SIKAP MENTAL POSITIF DALAM MENGHADAPI MASALAH</li>
+                            <li>PEMBENTUKAN DALAM KARAKTER</li>
+                            <li>DIPERLENGKAPI DALAM TEAM BUILDING</li>
+                        </ul>
+                    </div>
+
+                    <p>Pelatihan ini akan diadakan di alam terbuka dengan tantangan yang akan ditemui melalui setiap kegiatan (<em>outbound activities</em>) yang dilakukan. Pelatihan ini dikenakan biaya sebesar <span class="line-through text-gray-400">Rp 1.000.000,- (Satu Juta rupiah)</span>. Karena sebagian biaya telah disubsidi oleh Abbalove Ministries, maka Bapak/Ibu/Sdr./i hanya dikenakan biaya sebesar <strong class="text-green-700 text-lg">Rp 600.000,- (Enam Ratus Ribu Rupiah)</strong>.</p>
+                    <p>Pendaftaran dapat dilakukan melalui counter setelah Ibadah Minggu di area masing-masing dan akan ditutup pada tanggal <strong>07 Juni 2026</strong> atau jika sudah memenuhi kuota 40 orang.</p>
+                    <p>Kami mengharapkan keseriusan Bapak/Ibu/Sdr./i dalam meresponi pelatihan ini, mengingat investasi yang diberikan sangat besar, berkat yang akan diterima serta terbatasnya kapasitas. Bila Bapak/Ibu/Saudara/i tidak dapat memenuhi undangan ini, kami mohon membuat pernyataan tertulis yang ditujukan kepada Departemen Edukasi.</p>
+                    
+                    <p class="mt-4 bg-yellow-50 p-4 rounded-md border-l-4 border-yellow-400 text-sm">
+                        Informasi lebih lanjut silahkan hubungi:<br>
+                        📞 <strong>Bp. Doni Fredi</strong> (0811390770)<br>
+                        📞 <strong>Betsy</strong> (0852 3766 1784)
+                    </p>
+
+                    <p class="font-semibold text-center mt-8 text-green-800 text-lg italic">"Pastikan kita terlibat dalam kegerakan Allah."</p>
+
+                    <div class="mt-8">
+                        <p>Hamba Kristus dalam perjuangan,</p>
+                        <br><br>
+                        <p class="font-bold underline">Doni Fredi</p>
+                        <p class="text-sm text-gray-500">Pemimpin Jemaat</p>
+                    </div>
+                </div>
+
+                <!-- Bagian Konfirmasi Kehadiran -->
+                <div class="mt-12 pt-8 border-t-2 border-dashed border-gray-300">
+                    <h3 class="text-center text-xl font-bold text-gray-800 mb-6">Konfirmasi Keikutsertaan</h3>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button onclick="pilihKehadiran('hadir')" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all">
+                            ✓ Setuju Hadir
+                        </button>
+                        <button onclick="pilihKehadiran('tidak')" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all">
+                            ✕ Tidak Hadir
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notifikasi Tidak Hadir -->
+                <div id="pesan-tidak-hadir" class="hidden mt-6 p-4 bg-red-50 text-red-800 rounded-lg text-center border border-red-200 fade-in">
+                    <p class="font-medium">Terima kasih atas konfirmasi Anda.</p>
+                    <p class="text-sm mt-1">Kami mengerti jika Anda belum bisa hadir kali ini. Sampai jumpa di kesempatan berikutnya!</p>
+                </div>
+
+                <!-- Form Pengisian Data (Muncul jika Setuju Hadir) -->
+                <div id="form-pendaftaran" class="hidden mt-8 pt-8 border-t border-gray-200 fade-in">
+                    <h3 class="text-2xl font-bold text-green-800 mb-6 flex items-center">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm mr-2">📋</span> Form Pendaftaran
+                    </h3>
+                    
+                    <!-- Form tag. Ganti ACTION_URL dengan URL Web App dari Google Apps Script -->
+                    <form id="rsvp-form" name="submit-to-google-sheet" class="space-y-5">
+                        <input type="hidden" name="Status" value="Hadir">
+                        <!-- Nama diset otomatis dari URL -->
+                        <input type="hidden" id="hidden-nama" name="Nama_URL" value="">
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap *</label>
+                                <input type="text" name="Nama_Lengkap" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition" placeholder="Masukkan nama lengkap">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">No HP / WA *</label>
+                                <input type="tel" name="No_WA" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition" placeholder="Contoh: 08123456789">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Tempat Lahir *</label>
+                                <input type="text" name="Tempat_Lahir" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition" placeholder="Tempat lahir">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Tanggal Lahir *</label>
+                                <input type="date" name="Tanggal_Lahir" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition">
+                            </div>
+                            
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Alamat Domisili *</label>
+                                <textarea name="Alamat_Domisili" required rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition" placeholder="Alamat lengkap saat ini"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Area Pelayanan *</label>
+                                <input type="text" name="Area_Pelayanan" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition" placeholder="Area pelayanan Anda">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Kontak Darurat (Nama - No HP) *</label>
+                                <input type="text" name="Kontak_Darurat" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition" placeholder="Cth: Budi (Istri) - 0812xxx">
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Riwayat Penyakit Khusus</label>
+                                <input type="text" name="Riwayat_Penyakit" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition" placeholder="Kosongkan jika tidak ada, atau sebutkan (Cth: Asma, Maag Akut)">
+                            </div>
+
+                            <div class="p-4 border border-green-200 bg-green-50 rounded-lg">
+                                <label class="block text-sm font-bold text-green-800 mb-2">Jenis Pembayaran *</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="radio" name="Jenis_Pembayaran" value="1x Bayar" required class="text-green-600 focus:ring-green-500 w-4 h-4">
+                                        <span>1x Bayar (Lunas)</span>
+                                    </label>
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="radio" name="Jenis_Pembayaran" value="2x Bayar" class="text-green-600 focus:ring-green-500 w-4 h-4">
+                                        <span>2x Bayar</span>
+                                    </label>
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="radio" name="Jenis_Pembayaran" value="3x Bayar" class="text-green-600 focus:ring-green-500 w-4 h-4">
+                                        <span>3x Bayar</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="p-4 border border-green-200 bg-green-50 rounded-lg">
+                                <label class="block text-sm font-bold text-green-800 mb-2">Metode Pembayaran *</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="radio" name="Metode_Pembayaran" value="Cash" required class="text-green-600 focus:ring-green-500 w-4 h-4">
+                                        <span>Cash / Tunai</span>
+                                    </label>
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="radio" name="Metode_Pembayaran" value="Cicil" class="text-green-600 focus:ring-green-500 w-4 h-4">
+                                        <span>Transfer</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Checkbox Persetujuan -->
+                        <div class="mt-8 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                            <label class="flex items-start space-x-3 cursor-pointer">
+                                <input type="checkbox" id="agreement" class="mt-1 w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500" onchange="toggleSubmitButton()">
+                                <span class="text-sm font-semibold text-gray-700">
+                                    Saya bersedia mengikuti setiap proses yang ada pada pelatihan Leadership Boot Camp.
+                                </span>
+                            </label>
+                        </div>
+
+                        <!-- Tombol Submit -->
+                        <div class="mt-6 text-right">
+                            <button type="submit" id="btn-submit" disabled class="bg-gray-400 cursor-not-allowed text-white font-bold py-3 px-8 rounded-lg transition-all w-full md:w-auto">
+                                Kirim Data Pendaftaran
+                            </button>
+                        </div>
+                        
+                        <!-- Pesan Loading/Sukses -->
+                        <div id="form-message" class="hidden mt-4 text-center font-semibold text-green-700">
+                            Memproses data...
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Footer text -->
+            <div class="text-center text-gray-400 text-sm mt-8 mb-4">
+                &copy; 2026 Abbalove Ministries. All rights reserved.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. MENGAMBIL NAMA PESERTA DARI URL
+        // Cukup tambahkan ?to=Nama%20Peserta di akhir URL
+        const urlParams = new URLSearchParams(window.location.search);
+        // Default jika tidak ada nama di URL
+        let namaPeserta = urlParams.get('to') || 'Bapak/Ibu/Sdr/i'; 
+        
+        // Membersihkan potensi script dari URL (Keamanan dasar)
+        namaPeserta = namaPeserta.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+        // Menempatkan nama di Cover dan Isi Surat
+        document.getElementById('cover-guest-name').innerText = namaPeserta;
+        document.getElementById('letter-guest-name').innerText = namaPeserta;
+        document.getElementById('hidden-nama').value = namaPeserta; // Untuk dikirim ke google form
+
+        // 2. MENGATUR TANGGAL HARI INI DI ATAS UNDANGAN
+        const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const currentDate = new Date().toLocaleDateString('id-ID', optionsDate);
+        document.getElementById('current-date').innerText = currentDate;
+
+        // 3. FUNGSI UNTUK MEMBUKA UNDANGAN (Animasi Cover Naik)
+        function bukaUndangan() {
+            const cover = document.getElementById('cover-page');
+            const mainContent = document.getElementById('main-content');
+            
+            // Set overflow ke scroll agar bisa digulir
+            document.body.classList.remove('overflow-hidden');
+            mainContent.classList.remove('hidden');
+            
+            // Berikan sedikit delay agar tampilan awal main content tidak loncat
+            setTimeout(() => {
+                cover.classList.add('slide-up');
+            }, 50);
+
+            // Sembunyikan cover secara permanen setelah animasi selesai agar tidak menutupi klik
+            setTimeout(() => {
+                cover.style.display = 'none';
+            }, 800);
+        }
+
+        // 4. FUNGSI TOMBOL KEHADIRAN
+        function pilihKehadiran(status) {
+            const formContainer = document.getElementById('form-pendaftaran');
+            const msgTidakHadir = document.getElementById('pesan-tidak-hadir');
+
+            if (status === 'hadir') {
+                formContainer.classList.remove('hidden');
+                msgTidakHadir.classList.add('hidden');
+                // Scroll ke form
+                setTimeout(() => {
+                    formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            } else {
+                formContainer.classList.add('hidden');
+                msgTidakHadir.classList.remove('hidden');
+                
+                // Opsional: Langsung kirim status tidak hadir ke server secara diam-diam
+                // Anda dapat memanggil fungsi fetch di sini jika ingin merekam yang tidak hadir
+            }
+        }
+
+        // 5. FUNGSI TOGGLE TOMBOL SUBMIT (Checkbox Persetujuan)
+        function toggleSubmitButton() {
+            const checkbox = document.getElementById('agreement');
+            const btnSubmit = document.getElementById('btn-submit');
+
+            if (checkbox.checked) {
+                btnSubmit.disabled = false;
+                btnSubmit.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                btnSubmit.classList.add('bg-green-600', 'hover:bg-green-700', 'shadow-lg');
+            } else {
+                btnSubmit.disabled = true;
+                btnSubmit.classList.add('bg-gray-400', 'cursor-not-allowed');
+                btnSubmit.classList.remove('bg-green-600', 'hover:bg-green-700', 'shadow-lg');
+            }
+        }
+
+        // 6. FUNGSI KIRIM DATA KE GOOGLE SHEETS
+        // GANTI URL DI BAWAH INI DENGAN URL WEB APP DARI GOOGLE APPS SCRIPT ANDA
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxETApEVLbkclC3L-bTsJAIyWdbmPQshghsQTdjNSLZRx8u3ODDfCuN0yH9n6Dbh1B_/exec'; 
+        const form = document.forms['submit-to-google-sheet'];
+        const btnSubmit = document.getElementById('btn-submit');
+        const formMessage = document.getElementById('form-message');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault(); // Mencegah form reload halaman
+
+            // Cek jika scriptURL belum diganti
+            if(scriptURL === 'MASUKKAN_URL_WEB_APP_ANDA_DISINI'){
+                alert('Peringatan: URL Google Apps Script belum disetel di kode HTML. Silakan ikuti tutorial terlebih dahulu.');
+                return;
+            }
+
+            // UI Loading state
+            btnSubmit.innerHTML = 'Mengirim...';
+            btnSubmit.disabled = true;
+            formMessage.classList.remove('hidden');
+            formMessage.innerText = 'Mohon tunggu, sedang mengirim data...';
+            formMessage.className = "mt-4 text-center font-semibold text-yellow-600";
+
+            // Mengirim data menggunakan fetch API
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                .then(response => {
+                    formMessage.innerText = '✅ Pendaftaran Berhasil Terkirim!';
+                    formMessage.className = "mt-4 text-center font-semibold text-green-700";
+                    btnSubmit.innerHTML = 'Data Terkirim';
+                    form.reset(); // Kosongkan form setelah sukses
+                    document.getElementById('agreement').checked = false;
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    formMessage.innerText = '❌ Terjadi kesalahan. Silakan coba lagi.';
+                    formMessage.className = "mt-4 text-center font-semibold text-red-600";
+                    btnSubmit.innerHTML = 'Kirim Data Pendaftaran';
+                    btnSubmit.disabled = false;
+                });
+        });
+
+    </script>
+</body>
+</html>
