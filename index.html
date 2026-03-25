@@ -46,24 +46,37 @@
 </head>
 <body class="overflow-hidden text-gray-800">
 
+    <!-- TAG AUDIO MUSIK BACKGROUND -->
+    <!-- Ganti isi src="..." dengan link musik mp3 pilihan Anda -->
+    <audio id="bg-music" loop>
+        <source src="https://files.catbox.moe/glppxm.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- TOMBOL KONTROL MUSIK (Muncul setelah undangan dibuka) -->
+    <button id="music-control" onclick="toggleMusic()" class="fixed bottom-6 right-6 z-50 bg-white/90 backdrop-blur-sm p-4 rounded-full shadow-2xl text-2xl hidden hover:scale-110 transition-transform duration-300 border border-green-100">
+        <span id="music-icon">🔊</span>
+    </button>
+
     <!-- BAGIAN COVER UNDANGAN -->
-    <div id="cover-page" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-green-700 text-white p-6 w-full h-full transition-all duration-1000">
+    <!-- Latar diubah menjadi gradasi hijau ke putih -->
+    <div id="cover-page" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-b from-green-800 via-green-600 to-white text-white p-6 w-full h-full transition-all duration-1000">
         <!-- Overlay pattern (opsional, untuk mempermanis cover) -->
-        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay"></div>
         
         <div class="relative z-10 flex flex-col items-center text-center">
-            <!-- Logo -->
-            <img src="https://i.ibb.co.com/ymkyHVkp/LOGO-FIX.png" alt="Logo" class="w-32 md:w-40 mb-8 bg-white p-2 rounded-xl shadow-lg">
+            <!-- Logo (Background putih dihapus, diganti drop shadow) -->
+            <img src="https://i.ibb.co.com/ymkyHVkp/LOGO-FIX.png" alt="Logo" class="w-32 md:w-40 mb-8 drop-shadow-2xl">
             
-            <h1 class="text-3xl md:text-5xl font-bold mb-4 tracking-wide">Undangan Leadership Boot Camp</h1>
+            <h1 class="text-3xl md:text-5xl font-bold mb-4 tracking-wide drop-shadow-md">Undangan Leadership Boot Camp</h1>
             
-            <div class="mt-8 mb-12">
-                <p class="text-lg md:text-xl font-light mb-2">Kepada Ytk,</p>
+            <div class="mt-8 mb-12 drop-shadow-md">
+                <p class="text-lg md:text-xl font-medium mb-2">Kepada Ytk,</p>
                 <!-- Nama peserta akan diisi otomatis oleh JavaScript dari URL -->
-                <h2 id="cover-guest-name" class="text-3xl md:text-4xl font-semibold text-green-100 border-b-2 border-green-400 pb-2 inline-block px-4">Nama Peserta</h2>
+                <h2 id="cover-guest-name" class="text-3xl md:text-4xl font-bold text-green-50 border-b-2 border-green-200 pb-2 inline-block px-4">Nama Peserta</h2>
             </div>
 
-            <button onclick="bukaUndangan()" class="group relative px-8 py-3 bg-white text-green-700 font-bold rounded-full text-lg shadow-[0_0_20px_rgba(255,255,255,0.4)] hover:bg-green-50 hover:shadow-[0_0_30px_rgba(255,255,255,0.6)] hover:-translate-y-1 transition-all duration-300">
+            <!-- Tombol Buka Undangan -->
+            <button onclick="bukaUndangan()" class="group relative px-8 py-3 bg-white text-green-800 font-bold rounded-full text-lg shadow-xl border border-green-100 hover:bg-green-50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
                 Buka Undangan
                 <span class="inline-block ml-2 group-hover:translate-y-1 transition-transform">↓</span>
             </button>
@@ -313,14 +326,22 @@
         const currentDate = new Date().toLocaleDateString('id-ID', optionsDate);
         document.getElementById('current-date').innerText = currentDate;
 
-        // 3. FUNGSI UNTUK MEMBUKA UNDANGAN (Animasi Cover Naik)
+        // 3. FUNGSI UNTUK MEMBUKA UNDANGAN (Animasi Cover Naik & Play Musik)
         function bukaUndangan() {
             const cover = document.getElementById('cover-page');
             const mainContent = document.getElementById('main-content');
+            const bgMusic = document.getElementById('bg-music');
+            const musicControl = document.getElementById('music-control');
             
             // Set overflow ke scroll agar bisa digulir
             document.body.classList.remove('overflow-hidden');
             mainContent.classList.remove('hidden');
+
+            // --- BAGIAN MEMUTAR MUSIK ---
+            if(bgMusic) {
+                bgMusic.play().catch(error => console.log("Gagal memutar musik:", error));
+                musicControl.classList.remove('hidden'); // Memunculkan tombol kontrol musik
+            }
             
             // Berikan sedikit delay agar tampilan awal main content tidak loncat
             setTimeout(() => {
@@ -333,7 +354,21 @@
             }, 800);
         }
 
-        // 4. FUNGSI TOMBOL KEHADIRAN
+        // 4. FUNGSI UNTUK TOGGLE (PLAY/PAUSE) MUSIK
+        function toggleMusic() {
+            const bgMusic = document.getElementById('bg-music');
+            const musicIcon = document.getElementById('music-icon');
+
+            if (bgMusic.paused) {
+                bgMusic.play();
+                musicIcon.innerText = '🔊';
+            } else {
+                bgMusic.pause();
+                musicIcon.innerText = '🔇';
+            }
+        }
+
+        // 5. FUNGSI TOMBOL KEHADIRAN
         function pilihKehadiran(status) {
             const formContainer = document.getElementById('form-pendaftaran');
             const msgTidakHadir = document.getElementById('pesan-tidak-hadir');
@@ -354,7 +389,7 @@
             }
         }
 
-        // 5. FUNGSI TOGGLE TOMBOL SUBMIT (Checkbox Persetujuan)
+        // 6. FUNGSI TOGGLE TOMBOL SUBMIT (Checkbox Persetujuan)
         function toggleSubmitButton() {
             const checkbox = document.getElementById('agreement');
             const btnSubmit = document.getElementById('btn-submit');
@@ -370,7 +405,7 @@
             }
         }
 
-        // 6. FUNGSI KIRIM DATA KE GOOGLE SHEETS
+        // 7. FUNGSI KIRIM DATA KE GOOGLE SHEETS
         // GANTI URL DI BAWAH INI DENGAN URL WEB APP DARI GOOGLE APPS SCRIPT ANDA
         const scriptURL = 'https://script.google.com/macros/s/AKfycbxETApEVLbkclC3L-bTsJAIyWdbmPQshghsQTdjNSLZRx8u3ODDfCuN0yH9n6Dbh1B_/exec'; 
         const form = document.forms['submit-to-google-sheet'];
