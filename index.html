@@ -11,6 +11,26 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0fdf4; /* Light green background */
+            
+            /* PROTEKSI ANTI-COPY & ANTI-SELECT */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Izinkan pengetikan teks pada form input dan textarea */
+        input, textarea {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        /* PROTEKSI GAMBAR ANTI-DRAG & ANTI-KLIK */
+        img {
+            -webkit-user-drag: none;
+            pointer-events: none;
         }
         
         /* Animasi untuk transisi cover ke isi undangan */
@@ -42,9 +62,16 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #15803d; 
         }
+
+        /* PROTEKSI ANTI-PRINT (Saat di ctrl+p akan kosong) */
+        @media print {
+            body {
+                display: none !important;
+            }
+        }
     </style>
 </head>
-<body class="overflow-hidden text-gray-800">
+<body class="overflow-hidden text-gray-800" oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
 
     <!-- TAG AUDIO MUSIK BACKGROUND -->
     <!-- Ganti isi src="..." dengan link musik mp3 pilihan Anda -->
@@ -173,23 +200,23 @@
                 <div class="mt-12 pt-8 border-t-2 border-dashed border-gray-300">
                     <h3 class="text-center text-xl font-bold text-gray-800 mb-6">Konfirmasi Keikutsertaan</h3>
                     <div class="flex flex-col sm:flex-row justify-center gap-4">
-                        <button onclick="pilihKehadiran('hadir')" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all">
+                        <button onclick="pilihKehadiran('hadir')" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all relative z-10">
                             ✓ Setuju Hadir
                         </button>
-                        <button onclick="pilihKehadiran('tidak')" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all">
+                        <button onclick="pilihKehadiran('tidak')" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all relative z-10">
                             ✕ Tidak Hadir
                         </button>
                     </div>
                 </div>
 
                 <!-- Notifikasi Tidak Hadir -->
-                <div id="pesan-tidak-hadir" class="hidden mt-6 p-4 bg-red-50 text-red-800 rounded-lg text-center border border-red-200 fade-in">
+                <div id="pesan-tidak-hadir" class="hidden mt-6 p-4 bg-red-50 text-red-800 rounded-lg text-center border border-red-200 fade-in relative z-10">
                     <p class="font-medium">Terima kasih atas konfirmasi Anda.</p>
                     <p class="text-sm mt-1">Kami mengerti jika Anda belum bisa hadir kali ini. Sampai jumpa di kesempatan berikutnya!</p>
                 </div>
 
                 <!-- Form Pengisian Data (Muncul jika Setuju Hadir) -->
-                <div id="form-pendaftaran" class="hidden mt-8 pt-8 border-t border-gray-200 fade-in">
+                <div id="form-pendaftaran" class="hidden mt-8 pt-8 border-t border-gray-200 fade-in relative z-10">
                     <h3 class="text-2xl font-bold text-green-800 mb-6 flex items-center">
                         <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm mr-2">📋</span> Form Pendaftaran
                     </h3>
@@ -307,54 +334,75 @@
     </div>
 
     <script>
+        // --- SCRIPT PROTEKSI TAMBAHAN ---
+        // 1. Mencegah Klik Kanan (Context Menu)
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // 2. Mencegah penggunaan kombinasi keyboard tertentu (Print, Save, Inspect Element)
+        document.addEventListener('keydown', (e) => {
+            // Mencegah F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U (Developer Tools)
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
+                (e.ctrlKey && (e.key === 'U' || e.key === 'u')) || // View Source
+                (e.ctrlKey && (e.key === 'P' || e.key === 'p')) || // Print
+                (e.ctrlKey && (e.key === 'S' || e.key === 's')) || // Save As
+                e.key === 'PrintScreen') { // Print Screen Key
+                
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // 3. Deteksi tombol PrintScreen (Mencoba membersihkan clipboard jika memungkinkan)
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'PrintScreen') {
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText('Tangkapan layar tidak diizinkan pada dokumen ini.');
+                }
+            }
+        });
+        // --- AKHIR SCRIPT PROTEKSI ---
+
+
         // 1. MENGAMBIL NAMA PESERTA DARI URL
-        // Cukup tambahkan ?to=Nama%20Peserta di akhir URL
         const urlParams = new URLSearchParams(window.location.search);
-        // Default jika tidak ada nama di URL
         let namaPeserta = urlParams.get('to') || 'Bapak/Ibu/Sdr/i'; 
-        
-        // Membersihkan potensi script dari URL (Keamanan dasar)
         namaPeserta = namaPeserta.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-        // Menempatkan nama di Cover dan Isi Surat
         document.getElementById('cover-guest-name').innerText = namaPeserta;
         document.getElementById('letter-guest-name').innerText = namaPeserta;
-        document.getElementById('hidden-nama').value = namaPeserta; // Untuk dikirim ke google form
+        document.getElementById('hidden-nama').value = namaPeserta;
 
         // 2. MENGATUR TANGGAL HARI INI DI ATAS UNDANGAN
         const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         const currentDate = new Date().toLocaleDateString('id-ID', optionsDate);
         document.getElementById('current-date').innerText = currentDate;
 
-        // 3. FUNGSI UNTUK MEMBUKA UNDANGAN (Animasi Cover Naik & Play Musik)
+        // 3. FUNGSI UNTUK MEMBUKA UNDANGAN
         function bukaUndangan() {
             const cover = document.getElementById('cover-page');
             const mainContent = document.getElementById('main-content');
             const bgMusic = document.getElementById('bg-music');
             const musicControl = document.getElementById('music-control');
             
-            // Set overflow ke scroll agar bisa digulir
             document.body.classList.remove('overflow-hidden');
             mainContent.classList.remove('hidden');
 
-            // --- BAGIAN MEMUTAR MUSIK ---
             if(bgMusic) {
                 bgMusic.play().catch(error => console.log("Gagal memutar musik:", error));
-                musicControl.classList.remove('hidden'); // Memunculkan tombol kontrol musik
+                musicControl.classList.remove('hidden');
             }
             
-            // Berikan sedikit delay agar tampilan awal main content tidak loncat
             setTimeout(() => {
                 cover.classList.add('slide-up');
             }, 50);
 
-            // Sembunyikan cover secara permanen setelah animasi selesai agar tidak menutupi klik
             setTimeout(() => {
                 cover.style.display = 'none';
             }, 800);
         }
 
-        // 4. FUNGSI UNTUK TOGGLE (PLAY/PAUSE) MUSIK
+        // 4. FUNGSI UNTUK TOGGLE MUSIK
         function toggleMusic() {
             const bgMusic = document.getElementById('bg-music');
             const musicIcon = document.getElementById('music-icon');
@@ -376,20 +424,16 @@
             if (status === 'hadir') {
                 formContainer.classList.remove('hidden');
                 msgTidakHadir.classList.add('hidden');
-                // Scroll ke form
                 setTimeout(() => {
                     formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 100);
             } else {
                 formContainer.classList.add('hidden');
                 msgTidakHadir.classList.remove('hidden');
-                
-                // Opsional: Langsung kirim status tidak hadir ke server secara diam-diam
-                // Anda dapat memanggil fungsi fetch di sini jika ingin merekam yang tidak hadir
             }
         }
 
-        // 6. FUNGSI TOGGLE TOMBOL SUBMIT (Checkbox Persetujuan)
+        // 6. FUNGSI TOGGLE TOMBOL SUBMIT
         function toggleSubmitButton() {
             const checkbox = document.getElementById('agreement');
             const btnSubmit = document.getElementById('btn-submit');
@@ -406,35 +450,31 @@
         }
 
         // 7. FUNGSI KIRIM DATA KE GOOGLE SHEETS
-        // GANTI URL DI BAWAH INI DENGAN URL WEB APP DARI GOOGLE APPS SCRIPT ANDA
         const scriptURL = 'https://script.google.com/macros/s/AKfycbxETApEVLbkclC3L-bTsJAIyWdbmPQshghsQTdjNSLZRx8u3ODDfCuN0yH9n6Dbh1B_/exec'; 
         const form = document.forms['submit-to-google-sheet'];
         const btnSubmit = document.getElementById('btn-submit');
         const formMessage = document.getElementById('form-message');
 
         form.addEventListener('submit', e => {
-            e.preventDefault(); // Mencegah form reload halaman
+            e.preventDefault(); 
 
-            // Cek jika scriptURL belum diganti
             if(scriptURL === 'MASUKKAN_URL_WEB_APP_ANDA_DISINI'){
                 alert('Peringatan: URL Google Apps Script belum disetel di kode HTML. Silakan ikuti tutorial terlebih dahulu.');
                 return;
             }
 
-            // UI Loading state
             btnSubmit.innerHTML = 'Mengirim...';
             btnSubmit.disabled = true;
             formMessage.classList.remove('hidden');
             formMessage.innerText = 'Mohon tunggu, sedang mengirim data...';
             formMessage.className = "mt-4 text-center font-semibold text-yellow-600";
 
-            // Mengirim data menggunakan fetch API
             fetch(scriptURL, { method: 'POST', body: new FormData(form)})
                 .then(response => {
                     formMessage.innerText = '✅ Pendaftaran Berhasil Terkirim!';
                     formMessage.className = "mt-4 text-center font-semibold text-green-700";
                     btnSubmit.innerHTML = 'Data Terkirim';
-                    form.reset(); // Kosongkan form setelah sukses
+                    form.reset(); 
                     document.getElementById('agreement').checked = false;
                 })
                 .catch(error => {
