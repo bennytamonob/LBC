@@ -203,16 +203,7 @@
                         <button onclick="pilihKehadiran('hadir')" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all relative z-10">
                             ✓ Setuju Hadir
                         </button>
-                        <button onclick="pilihKehadiran('tidak')" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all relative z-10">
-                            ✕ Tidak Hadir
-                        </button>
                     </div>
-                </div>
-
-                <!-- Notifikasi Tidak Hadir -->
-                <div id="pesan-tidak-hadir" class="hidden mt-6 p-4 bg-red-50 text-red-800 rounded-lg text-center border border-red-200 fade-in relative z-10">
-                    <p class="font-medium">Terima kasih atas konfirmasi Anda.</p>
-                    <p class="text-sm mt-1">Kami mengerti jika Anda belum bisa hadir kali ini. Sampai jumpa di kesempatan berikutnya!</p>
                 </div>
 
                 <!-- Form Pengisian Data (Muncul jika Setuju Hadir) -->
@@ -419,17 +410,12 @@
         // 5. FUNGSI TOMBOL KEHADIRAN
         function pilihKehadiran(status) {
             const formContainer = document.getElementById('form-pendaftaran');
-            const msgTidakHadir = document.getElementById('pesan-tidak-hadir');
 
             if (status === 'hadir') {
                 formContainer.classList.remove('hidden');
-                msgTidakHadir.classList.add('hidden');
                 setTimeout(() => {
                     formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 100);
-            } else {
-                formContainer.classList.add('hidden');
-                msgTidakHadir.classList.remove('hidden');
             }
         }
 
