@@ -277,16 +277,23 @@
                                 </div>
                             </div>
 
+                            <!-- METODE PEMBAYARAN DENGAN INFO TAMBAHAN -->
                             <div class="p-4 border border-green-200 bg-green-50 rounded-lg">
                                 <label class="block text-sm font-bold text-green-800 mb-2">Metode Pembayaran *</label>
-                                <div class="space-y-2">
-                                    <label class="flex items-center space-x-2 cursor-pointer">
-                                        <input type="radio" name="Metode_Pembayaran" value="Cash" required class="text-green-600 focus:ring-green-500 w-4 h-4">
-                                        <span>Cash / Tunai</span>
+                                <div class="space-y-3">
+                                    <label class="flex items-start space-x-2 cursor-pointer">
+                                        <input type="radio" name="Metode_Pembayaran" value="Cash" required class="mt-1 text-green-600 focus:ring-green-500 w-4 h-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-medium">Cash / Tunai</span>
+                                            <span class="text-xs text-gray-600 italic">Uang tunai dapat di berikan pada Sdri. Betsy</span>
+                                        </div>
                                     </label>
-                                    <label class="flex items-center space-x-2 cursor-pointer">
-                                        <input type="radio" name="Metode_Pembayaran" value="Cicil" class="text-green-600 focus:ring-green-500 w-4 h-4">
-                                        <span>Transfer</span>
+                                    <label class="flex items-start space-x-2 cursor-pointer">
+                                        <input type="radio" name="Metode_Pembayaran" value="Transfer" class="mt-1 text-green-600 focus:ring-green-500 w-4 h-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-medium">Transfer</span>
+                                            <span class="text-xs text-gray-600 italic leading-snug">Dapat di Transfer pada no rekening BNI-2405201818 A/N GEREJA YESUS KRISTUS TUHAN</span>
+                                        </div>
                                     </label>
                                 </div>
                             </div>
@@ -331,20 +338,19 @@
 
         // 2. Mencegah penggunaan kombinasi keyboard tertentu (Print, Save, Inspect Element)
         document.addEventListener('keydown', (e) => {
-            // Mencegah F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U (Developer Tools)
             if (e.key === 'F12' || 
                 (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
                 (e.ctrlKey && (e.key === 'U' || e.key === 'u')) || // View Source
                 (e.ctrlKey && (e.key === 'P' || e.key === 'p')) || // Print
                 (e.ctrlKey && (e.key === 'S' || e.key === 's')) || // Save As
-                e.key === 'PrintScreen') { // Print Screen Key
+                e.key === 'PrintScreen') { 
                 
                 e.preventDefault();
                 return false;
             }
         });
 
-        // 3. Deteksi tombol PrintScreen (Mencoba membersihkan clipboard jika memungkinkan)
+        // 3. Deteksi tombol PrintScreen
         document.addEventListener('keyup', (e) => {
             if (e.key === 'PrintScreen') {
                 if (navigator.clipboard) {
@@ -353,7 +359,6 @@
             }
         });
         // --- AKHIR SCRIPT PROTEKSI ---
-
 
         // 1. MENGAMBIL NAMA PESERTA DARI URL
         const urlParams = new URLSearchParams(window.location.search);
@@ -364,7 +369,7 @@
         document.getElementById('letter-guest-name').innerText = namaPeserta;
         document.getElementById('hidden-nama').value = namaPeserta;
 
-        // 2. MENGATUR TANGGAL HARI INI DI ATAS UNDANGAN
+        // 2. MENGATUR TANGGAL HARI INI
         const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         const currentDate = new Date().toLocaleDateString('id-ID', optionsDate);
         document.getElementById('current-date').innerText = currentDate;
@@ -444,11 +449,6 @@
         form.addEventListener('submit', e => {
             e.preventDefault(); 
 
-            if(scriptURL === 'MASUKKAN_URL_WEB_APP_ANDA_DISINI'){
-                alert('Peringatan: URL Google Apps Script belum disetel di kode HTML. Silakan ikuti tutorial terlebih dahulu.');
-                return;
-            }
-
             btnSubmit.innerHTML = 'Mengirim...';
             btnSubmit.disabled = true;
             formMessage.classList.remove('hidden');
@@ -462,6 +462,7 @@
                     btnSubmit.innerHTML = 'Data Terkirim';
                     form.reset(); 
                     document.getElementById('agreement').checked = false;
+                    toggleSubmitButton();
                 })
                 .catch(error => {
                     console.error('Error!', error.message);
@@ -471,7 +472,6 @@
                     btnSubmit.disabled = false;
                 });
         });
-
     </script>
 </body>
 </html>
